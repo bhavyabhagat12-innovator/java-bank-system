@@ -114,14 +114,20 @@ public class Account implements Serializable {
     public String getHolderName() { return holderName; }
     public List<Transaction> getHistory() { return history; }
 
+    public String getInfo() {
+        return "Account Number : " + accountNumber + "\n"
+             + "Holder Name    : " + holderName + "\n"
+             + "Account Type   : " + type + "\n"
+             + "Opened On      : " + openedOn + "\n"
+             + String.format("Balance        : %.2f", balance) + "\n"
+             + String.format("Daily Limit    : %.2f (remaining today: %.2f)", dailyLimit, getRemainingLimit());
+    }
+
     public void display() {
         System.out.println("-----------------------------------");
-        System.out.println("Account Number : " + accountNumber);
-        System.out.println("Holder Name    : " + holderName);
-        System.out.println("Account Type   : " + type);
-        System.out.println("Opened On      : " + openedOn);
-        System.out.printf ("Balance        : %.2f%n", balance);
-        System.out.printf ("Daily Limit    : %.2f (remaining today: %.2f)%n", dailyLimit, getRemainingLimit());
+        System.out.println(getInfo());
         System.out.println("-----------------------------------");
+    }
+}
     }
 }
