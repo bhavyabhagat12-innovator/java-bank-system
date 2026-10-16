@@ -1,0 +1,6 @@
+out/
+*.class
+*.jar
+bank-data.ser
+.idea/
+.vscode/
