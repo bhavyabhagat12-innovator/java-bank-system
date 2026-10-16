@@ -1,0 +1,35 @@
+name: Build Java Bank
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Compile and package JAR
+        run: |
+          mkdir out
+          javac -d out src/bank/*.java
+          printf "Main-Class: bank.Main\n" > manifest.txt
+          jar cfm JavaBank.jar manifest.txt -C out .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: JavaBank
+          path: JavaBank.jar
+      - name: Publish release (only on version tags)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: JavaBank.jar
